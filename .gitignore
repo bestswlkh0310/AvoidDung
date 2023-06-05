@@ -15,7 +15,7 @@
 /[Mm]emoryCaptures/
 
 # Exclude rider idea data
-*.idea
+.idea/
 
 *.DS_Store
 
