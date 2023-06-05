@@ -9,11 +9,13 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
-/[.Ii].idea/
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
 /[Mm]emoryCaptures/
+
+# Exclude rider idea data
+.idea
 
 # Recordings can get excessive in size
 /[Rr]ecordings/
