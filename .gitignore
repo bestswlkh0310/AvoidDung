@@ -17,7 +17,7 @@
 # Exclude rider idea data
 .idea/
 
-*.DS_Store
+.DS_Store
 
 # Recordings can get excessive in size
 /[Rr]ecordings/
