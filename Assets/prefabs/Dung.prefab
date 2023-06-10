@@ -127,3 +127,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85733b2114a0242d9806461ed90bfaa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dungMaterial: {fileID: 2100000, guid: fbcc87c9269d643f58c53a4ecb470d8a, type: 2}
