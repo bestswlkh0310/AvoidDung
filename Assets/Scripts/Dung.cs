@@ -51,8 +51,23 @@ public class Dung : MonoBehaviour
         if (collider.gameObject.CompareTag("Player"))
         {
             Debug.Log("충돌함 ㅋ");
-            PlayerController.isGameOver = true;
+            PlayerController.IsGameOver = true;
             SceneManager.LoadScene("GameOver");
+            var myScore = (int)PlayerController.Time;
+
+            if (PlayerPrefs.HasKey("bestScore"))
+            {
+                var bestScore = PlayerPrefs.GetInt("bestScore");
+                
+                if (bestScore < myScore)
+                {
+                    PlayerPrefs.SetInt("bestScore", myScore);
+                }
+            }
+            else
+            {
+                PlayerPrefs.SetInt("bestScore", myScore);
+            }
         }
     }
 }

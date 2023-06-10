@@ -9,6 +9,7 @@ public class CameraController : MonoBehaviour
 
     private float xInput;
     private float yInput;
+    private float xRotation;
 
     private Vector3 offSet;
 
@@ -26,7 +27,10 @@ public class CameraController : MonoBehaviour
 
     private void Rotate()
     {
-        transform.Rotate(new Vector3(-xInput, 0.0f, 0.0f));
+        xRotation -= xInput;
+        xRotation = Mathf.Clamp(xRotation, -90.0f, 90.0f);
+        
+        transform.rotation = Quaternion.Euler(xRotation, 0.0f, 0.0f);
         transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, player.transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
     }
 

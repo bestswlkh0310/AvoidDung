@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public static bool isGameOver;
+    public static bool IsGameOver;
     private Rigidbody _rb;
     public TextMeshProUGUI timerText;
-    private float time;
+    public static float Time;
     public float rotateYSensitivity;
     
     private float xInput;
@@ -18,7 +18,8 @@ public class PlayerController : MonoBehaviour
 
     private void OnValidate()
     {
-        isGameOver = false;
+        IsGameOver = false;
+        Time = 0.0f;
     }
 
     private void Start() {
@@ -31,8 +32,6 @@ public class PlayerController : MonoBehaviour
         GetInput();
         Rotate();
     }
-    
-    
 
     private void Move() {
         var xPos = Input.GetAxisRaw("Horizontal");
@@ -40,7 +39,7 @@ public class PlayerController : MonoBehaviour
 
         Vector3 move = transform.forward * zPos + transform.right * xPos;
 
-        _rb.MovePosition(transform.position + move.normalized * Time.deltaTime * speed);
+        _rb.MovePosition(transform.position + move.normalized * UnityEngine.Time.deltaTime * speed);
     }
 
     private void Rotate()
@@ -50,8 +49,8 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateTimer()
     {
-        time += Time.deltaTime;
-        timerText.text = "Time: " + (int)time + "s";
+        Time += UnityEngine.Time.deltaTime;
+        timerText.text = "Time: " + (int)Time + "s";
     }
     
     private void GetInput()

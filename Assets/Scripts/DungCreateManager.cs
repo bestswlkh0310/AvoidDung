@@ -11,7 +11,7 @@ public class DungCreateManager : MonoBehaviour
     public float _createDungYPos;
     
     private void Update() {
-        if (PlayerController.isGameOver == false)
+        if (PlayerController.IsGameOver == false)
         {
             CreateDung();
         }
