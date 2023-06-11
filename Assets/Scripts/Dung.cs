@@ -59,22 +59,7 @@ public class Dung : MonoBehaviour
             PlayerController.IsGameOver = true;
             SceneManager.LoadScene("GameOver");
             var myScore = (int)PlayerController.Time;
-
-            if (PlayerPrefs.HasKey("bestScore"))
-            {
-                var bestScore = PlayerPrefs.GetInt("bestScore");
-                
-                if (bestScore < myScore)
-                {
-                    PlayerPrefs.SetInt("bestScore", myScore);
-                    StartCoroutine(UpdateRanking(OnBoard.UserNickName, myScore));
-                }
-            }
-            else
-            {
-                PlayerPrefs.SetInt("bestScore", myScore);
-                StartCoroutine(UpdateRanking(OnBoard.UserNickName, myScore));
-            }
+            StartCoroutine(UpdateRanking(OnBoard.UserNickName, myScore));
         }
     }
 

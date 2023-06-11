@@ -13,7 +13,6 @@ public class OnBoard : MonoBehaviour
     public string scene;
     public string baseText;
     private RankingResponse rankingResponse;
-    public TextMeshProUGUI bestScoreText;
     public TextMeshProUGUI rankingText;
     public TMP_InputField userNickNameText;
     public static string UserNickName;
@@ -35,7 +34,6 @@ public class OnBoard : MonoBehaviour
         // PlayerPrefs.SetInt("bestScore", 1);
 
         LoadNickName();
-        LoadBestScore();
         StartCoroutine(LoadRanking());
     }
 
@@ -73,18 +71,6 @@ public class OnBoard : MonoBehaviour
         if (UserNickName != "")
         {
             userNickNameText.text = UserNickName;
-        }
-    }
-
-    private void LoadBestScore()
-    {
-        if (PlayerPrefs.HasKey("bestScore"))
-        {
-            bestScoreText.text = baseText + PlayerPrefs.GetInt("bestScore") + "s";
-        }
-        else
-        {
-            bestScoreText.text = baseText + "0s";
         }
     }
 }
