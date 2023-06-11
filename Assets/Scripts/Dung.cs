@@ -1,13 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 public class Dung : MonoBehaviour
 {
+    private string baseUrl = "http://127.0.0.1:8090/avoid-dung/";
+
     private Material dungMaterial;
     private void Start()
     {
@@ -48,6 +52,7 @@ public class Dung : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
+
         if (collider.gameObject.CompareTag("Player"))
         {
             Debug.Log("충돌함 ㅋ");
@@ -62,12 +67,32 @@ public class Dung : MonoBehaviour
                 if (bestScore < myScore)
                 {
                     PlayerPrefs.SetInt("bestScore", myScore);
+                    StartCoroutine(UpdateRanking(OnBoard.UserNickName, myScore));
                 }
             }
             else
             {
                 PlayerPrefs.SetInt("bestScore", myScore);
+                StartCoroutine(UpdateRanking(OnBoard.UserNickName, myScore));
             }
+        }
+    }
+
+    private IEnumerator UpdateRanking(string nickName, int score)
+    {
+        byte[] data = Encoding.UTF8.GetBytes("{\"nickName\": \""+ nickName + "\", \"score\": " + score + "}");
+        UnityWebRequest req = UnityWebRequest.Put(baseUrl + "ranking/", data);
+        req.SetRequestHeader("Content-Type", "application/json");
+        yield return req.SendWebRequest();
+        
+        if (req.result == UnityWebRequest.Result.ConnectionError)
+        {
+            Debug.Log("www error");
+        }
+        else
+        {
+            string result = req.downloadHandler.text;
+            Debug.Log("complete : " + result);
         }
     }
 }

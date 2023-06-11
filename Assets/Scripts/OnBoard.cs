@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Palmmedia.ReportGenerator.Core.Common;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -11,9 +12,11 @@ public class OnBoard : MonoBehaviour
     private string baseUrl = "http://127.0.0.1:8090/avoid-dung/";
     public string scene;
     public string baseText;
+    private RankingResponse rankingResponse;
     public TextMeshProUGUI bestScoreText;
+    public TextMeshProUGUI rankingText;
     public TMP_InputField userNickNameText;
-    private static string UserNickName;
+    public static string UserNickName;
     public void LoadGame() {
         UserNickName = userNickNameText.text;
         if (userNickNameText.text == "")
@@ -28,6 +31,9 @@ public class OnBoard : MonoBehaviour
 
     private void Start()
     {
+        // 점수 초기화 (임시)
+        // PlayerPrefs.SetInt("bestScore", 1);
+
         LoadNickName();
         LoadBestScore();
         StartCoroutine(LoadRanking());
@@ -38,15 +44,28 @@ public class OnBoard : MonoBehaviour
         UnityWebRequest req = UnityWebRequest.Get(baseUrl + "ranking/");
         yield return req.SendWebRequest();
 
-        if (req.isNetworkError || req.isHttpError)
+        if (req.result == UnityWebRequest.Result.ConnectionError)
         {
             Debug.Log("www error");
         }
         else
         {
             string result = req.downloadHandler.text;
-            Debug.Log("complete : " + result);
+            rankingResponse = JsonUtility.FromJson<RankingResponse>(result);
+            Debug.Log("complete : " + result + "\n" + rankingResponse.status);
+            UpdateRankingText();
         }
+    }
+
+    private void UpdateRankingText()
+    {
+        string text = "- Ranking -\n";
+        foreach (var rankingData in rankingResponse.data)
+        {
+            text += rankingData.nickName + ": " + rankingData.score + "s\n";
+        }
+
+        rankingText.text = text;
     }
 
     private void LoadNickName()
@@ -55,7 +74,6 @@ public class OnBoard : MonoBehaviour
         {
             userNickNameText.text = UserNickName;
         }
-
     }
 
     private void LoadBestScore()
