@@ -1,24 +1,29 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using UnityEngine.UIElements;
 
 public class Dung : MonoBehaviour
 {
     private string baseUrl = "http://127.0.0.1:8090/avoid-dung/";
+    public float rotateRange;
+    private Rigidbody rb;
 
     private Material dungMaterial;
     private void Start()
     {
-        StartCoroutine(FadeIn());
+        rb = GetComponent<Rigidbody>();
+        rb.AddTorque(
+            new Vector3(
+                Random.Range(-rotateRange, rotateRange),
+                Random.Range(-rotateRange, rotateRange),
+                Random.Range(-rotateRange, rotateRange)
+            ));
+        // StartCoroutine(FadeIn());
     }
 
-    private IEnumerator FadeIn()
+    /*private IEnumerator FadeIn()
     {
         dungMaterial = GetComponent<Renderer>().material;
         float fadeCnt = 0.0f;
@@ -29,7 +34,7 @@ public class Dung : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
             Debug.Log(fadeCnt);
         }
-    }
+    }*/
     
     private void Update()
     {
@@ -39,7 +44,6 @@ public class Dung : MonoBehaviour
 
     private void Rotate()
     {
-        transform.Rotate(0, 3, 0);
     }
 
     private void DestroyDung()
